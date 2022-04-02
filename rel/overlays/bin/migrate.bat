@@ -1,0 +1,1 @@
+call "%~dp0\jolt" eval Jolt.Release.migrate
