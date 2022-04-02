@@ -1,19 +1,23 @@
 defmodule Jolt.Application do
-  use Application
-
   # See https://hexdocs.pm/elixir/Application.html
   # for more information on OTP Applications
-  def start(_type, _args) do
-    import Supervisor.Spec
+  @moduledoc false
 
-    # Define workers and child supervisors to be supervised
+  use Application
+
+  @impl true
+  def start(_type, _args) do
     children = [
       # Start the Ecto repository
-      supervisor(Jolt.Repo, []),
-      # Start the endpoint when the application starts
-      supervisor(JoltWeb.Endpoint, []),
-      # Start your own worker by calling: Jolt.Worker.start_link(arg1, arg2, arg3)
-      # worker(Jolt.Worker, [arg1, arg2, arg3]),
+      Jolt.Repo,
+      # Start the Telemetry supervisor
+      JoltWeb.Telemetry,
+      # Start the PubSub system
+      {Phoenix.PubSub, name: Jolt.PubSub},
+      # Start the Endpoint (http/https)
+      JoltWeb.Endpoint
+      # Start a worker by calling: Jolt.Worker.start_link(arg)
+      # {Jolt.Worker, arg}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
@@ -24,6 +28,7 @@ defmodule Jolt.Application do
 
   # Tell Phoenix to update the endpoint configuration
   # whenever the application is updated.
+  @impl true
   def config_change(changed, _new, removed) do
     JoltWeb.Endpoint.config_change(changed, removed)
     :ok
