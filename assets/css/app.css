@@ -99,6 +99,25 @@
   animation: 0.2s ease-out 0s normal forwards 1 fade-out-keys;
 }
 
+/*
+ * These are minimal examples for live view prototyping .
+ * Please delete accordingly when the code is gone.
+ * If you don't what this means, it means this code should dissapear.
+ * */
+.meter {
+    display: flex;
+    background-color: gray;
+    height: 40px;
+}
+.meter > span {
+    justify-content: center;
+    flex-direction: column;
+    whitespace: nowrap;
+    background: green;
+    font-weight: bold;
+    transition: width 500ms ease;
+}
+
 @keyframes fade-in-scale-keys{
   0% { scale: 0.95; opacity: 0; }
   100% { scale: 1.0; opacity: 1; }
